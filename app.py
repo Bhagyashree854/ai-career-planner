@@ -15,13 +15,13 @@ from sklearn.metrics.pairwise import cosine_similarity
 # ---------------------------
 # GEMINI CONFIG
 # ---------------------------
+import google.generativeai as genai
+
 genai.configure(
     api_key=st.secrets["GEMINI_API_KEY"]
 )
 
-model = genai.GenerativeModel(
-    "gemini-2.0-flash"
-)
+model = genai.GenerativeModel("gemini-2.0-flash")
 
 # ---------------------------
 # DOWNLOADS
@@ -542,42 +542,50 @@ def resources(skill):
 # ---------------------------
 # REAL AI CHATBOT
 # ---------------------------
-def real_ai_chat(user_query, role):
+def real_ai_chat(user_prompt, role):
 
     prompt = f"""
-You are an advanced AI Career Mentor.
+    You are an AI Career Mentor.
 
-Student Target Role:
-{role}
+    User career role: {role}
 
-Current Skills:
-{st.session_state.matched}
+    User question:
+    {user_prompt}
 
-Missing Skills:
-{st.session_state.missing}
+    Answer shortly and clearly.
+    Keep response under 120 words.
+    """
 
-User Question:
-{user_query}
+    try:
+        response = model.generate_content(prompt)
 
-IMPORTANT RULES:
-- Keep answers SHORT
-- Maximum 6-8 lines
-- Be practical and direct
-- Use bullet points when needed
-- Avoid long paragraphs
-- Give concise career guidance
-- Explain in simple words
-- Only give detailed explanation if user specifically asks
+        if response.text:
+            return response.text
 
-Answer professionally.
-Keep answers practical and beginner friendly.
+        return "No response generated."
+
+    except Exception as e:
+
+        error_message = str(e)
+
+        if "ResourceExhausted" in error_message:
+            return """
+🚫 AI quota exceeded.
+
+Too many chatbot requests were sent today.
+
+Please try again later.
 """
 
-    response = model.generate_content(
-        prompt
-    )
+        elif "PermissionDenied" in error_message:
+            return """
+🚫 API permission issue.
 
-    return response.text
+Check Gemini API key settings.
+"""
+
+        else:
+            return f"⚠️ Error: {error_message}"
 # ---------------------------
 # PDF REPORT
 # ---------------------------
