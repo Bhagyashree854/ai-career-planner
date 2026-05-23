@@ -16,7 +16,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 # GEMINI CONFIG
 # ---------------------------
 genai.configure(
-    api_key=st.secrets["AIzaSyDGmGG9RrxX1sekmRA6alkG0dT6CIZRIDA"]
+    api_key=st.secrets["GEMINI_API_KEY"]
 )
 
 model = genai.GenerativeModel(
