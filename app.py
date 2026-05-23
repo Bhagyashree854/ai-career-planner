@@ -26,7 +26,17 @@ model = genai.GenerativeModel(
 # ---------------------------
 # DOWNLOADS
 # ---------------------------
+import ssl
+import nltk
+
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+    ssl._create_default_https_context = _create_unverified_https_context
+except:
+    pass
+
 nltk.download('punkt')
+nltk.download('punkt_tab')
 nltk.download('stopwords')
 
 # ---------------------------
