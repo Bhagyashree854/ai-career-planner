@@ -5,6 +5,13 @@ import PyPDF2
 import plotly.express as px
 import pandas as pd
 
+# ---------------------------
+# DOWNLOADS
+# ---------------------------
+nltk.download('punkt')
+nltk.download('punkt_tab')
+nltk.download('stopwords')
+
 from fpdf import FPDF
 
 from nltk.corpus import stopwords
