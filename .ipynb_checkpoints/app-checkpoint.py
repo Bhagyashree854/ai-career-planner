@@ -512,6 +512,9 @@ def resources(skill):
 # ---------------------------
 # OFFLINE CHATBOT
 # ---------------------------
+# ---------------------------
+# SMART OFFLINE AI CHATBOT
+# ---------------------------
 def real_ai_chat(user_query, role):
 
     query = user_query.lower()
@@ -519,8 +522,179 @@ def real_ai_chat(user_query, role):
     matched = st.session_state.matched
     missing = st.session_state.missing
 
-    response = ""
+    # ---------------------------
+    # KNOWLEDGE BASE
+    # ---------------------------
+    knowledge = {
 
+        "python": """
+# 🐍 Python
+
+Python is a high-level programming language used for:
+
+- Web Development
+- Data Science
+- Machine Learning
+- AI Development
+- Automation
+
+## Advantages
+- Easy syntax
+- Beginner friendly
+- Huge libraries
+- High demand in industry
+
+## Recommended Projects
+- Expense Tracker
+- AI Chatbot
+- Data Analysis System
+
+## Learning Path
+1. Basics
+2. Functions
+3. OOP
+4. Libraries
+5. Projects
+""",
+
+        "sql": """
+# 🗄 SQL
+
+SQL is used to manage and query databases.
+
+## Uses
+- Store data
+- Retrieve data
+- Analyze business information
+
+## Important Topics
+- SELECT
+- WHERE
+- JOIN
+- GROUP BY
+- Subqueries
+
+## Projects
+- Library Database
+- Student Database
+- Sales Dashboard
+""",
+
+        "machine learning": """
+# 🤖 Machine Learning
+
+Machine Learning allows systems to learn from data.
+
+## Applications
+- Recommendation Systems
+- AI Chatbots
+- Prediction Systems
+- Fraud Detection
+
+## Skills Required
+- Python
+- Pandas
+- NumPy
+- Statistics
+
+## Projects
+- House Price Prediction
+- Spam Detection
+- Stock Prediction
+""",
+
+        "data analyst": """
+# 📊 Data Analyst
+
+A Data Analyst analyzes data to help companies make decisions.
+
+## Skills Required
+- Excel
+- SQL
+- Python
+- Power BI
+- Statistics
+
+## Responsibilities
+- Dashboard creation
+- Data cleaning
+- Report generation
+- Business analysis
+
+## Projects
+- Sales Dashboard
+- HR Analytics
+- Customer Segmentation
+""",
+
+        "frontend": """
+# 🌐 Frontend Development
+
+Frontend development focuses on building website interfaces.
+
+## Skills
+- HTML
+- CSS
+- JavaScript
+- React
+
+## Projects
+- Portfolio Website
+- Weather App
+- Landing Page
+""",
+
+        "backend": """
+# ⚙ Backend Development
+
+Backend development handles server-side logic and databases.
+
+## Skills
+- Python / NodeJS
+- APIs
+- Databases
+- Authentication
+
+## Projects
+- REST API
+- Chat Backend
+- Authentication System
+""",
+
+        "cloud": """
+# ☁ Cloud Computing
+
+Cloud computing provides servers and services online.
+
+## Platforms
+- AWS
+- Azure
+- Google Cloud
+
+## Skills
+- Docker
+- Kubernetes
+- Linux
+
+## Projects
+- Cloud Deployment
+- Dockerized Apps
+- CI/CD Pipeline
+"""
+    }
+
+    # ---------------------------
+    # KNOWLEDGE SEARCH
+    # ---------------------------
+    for key in knowledge:
+
+        if key in query:
+
+            return knowledge[key]
+
+    # ---------------------------
+    # ROADMAP
+    # ---------------------------
     if "roadmap" in query:
 
         response = f"""
@@ -531,21 +705,25 @@ def real_ai_chat(user_query, role):
 
 ## ❌ Skills To Learn
 {', '.join(missing)}
-
 """
 
         for i, skill in enumerate(missing):
 
-            response += f"\n### Step {i+1}: Learn {skill.title()}\n"
+            response += f"\n## Step {i+1}: Learn {skill.title()}\n"
 
             if skill in project_recommendations:
 
-                response += "\nRecommended Projects:\n"
+                response += "\n### Recommended Projects\n"
 
                 for p in project_recommendations[skill]:
 
                     response += f"- {p}\n"
 
+        return response
+
+    # ---------------------------
+    # PROJECTS
+    # ---------------------------
     elif "project" in query:
 
         response = "# 💡 Recommended Projects\n"
@@ -565,73 +743,79 @@ def real_ai_chat(user_query, role):
                         response += f"- {project}\n"
                         shown.add(project)
 
+        return response
+
+    # ---------------------------
+    # INTERVIEW
+    # ---------------------------
     elif "interview" in query:
 
-        response = """
+        return """
 # 🎯 Interview Preparation
 
-## Technical Round
-- Practice coding
-- Revise SQL
+## Technical Preparation
+- Practice coding daily
+- Revise SQL and Python
 - Build projects
 
-## HR Round
-- Introduce yourself confidently
-- Explain projects clearly
-- Prepare strengths and weaknesses
+## HR Preparation
+- Self introduction
+- Explain projects confidently
+- Prepare strengths & weaknesses
 
 ## Important Tip
-Communication + Projects = Higher Selection Chances
+Communication + Projects + Consistency = Success
 """
 
-    elif "data analyst" in query:
+    # ---------------------------
+    # SKILLS
+    # ---------------------------
+    elif "skill" in query:
 
-        response = """
-# 📊 Data Analyst
+        return f"""
+# 📚 Skills Analysis
 
-A Data Analyst collects and analyzes data to help companies make decisions.
+## Current Skills
+{', '.join(matched)}
 
-## Skills Required
-- Python
-- SQL
-- Excel
-- Statistics
-- Power BI
+## Missing Skills
+{', '.join(missing)}
 
-## Recommended Projects
-- Sales Dashboard
-- Customer Analytics
-- HR Analytics
-
-## Career Advice
-Master SQL and Excel first.
-Then move to Python and visualization tools.
+## Advice
+Focus on learning one skill deeply with projects.
 """
 
+    # ---------------------------
+    # DEFAULT
+    # ---------------------------
     else:
 
-        response = f"""
+        return f"""
 # 🤖 AI Career Mentor
 
-I can help you with:
+I can answer questions about:
 
-- Career Roadmaps
-- Skill Guidance
-- Project Recommendations
-- Resume Tips
+- Python
+- SQL
+- Machine Learning
+- Data Analyst
+- Frontend
+- Backend
+- Cloud Computing
+- Roadmaps
 - Interview Preparation
+- Projects
 
 Selected Role:
 ## {role.replace('_',' ').title()}
 
-Try asking:
+Example Questions:
+- What is Python?
+- Explain SQL
 - Give roadmap
 - Recommend projects
-- Explain data analyst
 - Interview tips
 """
-
-    return response
 
 # ---------------------------
 # PDF REPORT
