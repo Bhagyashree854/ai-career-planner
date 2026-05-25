@@ -306,6 +306,6 @@ if user_question:
 
 st.divider()
 st.caption("🚀 AI Career Planner | Offline AI Chatbot | Built with Streamlit")
-```
+
 
 
