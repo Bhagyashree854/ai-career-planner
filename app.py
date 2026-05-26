@@ -10,7 +10,6 @@ import plotly.express as px
 import pandas as pd
 
 from fpdf import FPDF
-
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
@@ -20,26 +19,16 @@ from sklearn.metrics.pairwise import cosine_similarity
 # ==========================================
 # NLTK DOWNLOADS
 # ==========================================
-import nltk
-
-# Download punkt
 try:
     nltk.data.find("tokenizers/punkt")
 except LookupError:
     nltk.download("punkt")
 
-# Download punkt_tab
-try:
-    nltk.data.find("tokenizers/punkt_tab")
-except LookupError:
-    nltk.download("punkt_tab")
-
-# Download stopwords
 try:
     nltk.data.find("corpora/stopwords")
 except LookupError:
     nltk.download("stopwords")
-    
+
 # ==========================================
 # PAGE CONFIG
 # ==========================================
@@ -50,7 +39,7 @@ st.set_page_config(
 )
 
 # ==========================================
-# UI DESIGN
+# CUSTOM CSS
 # ==========================================
 st.markdown("""
 <style>
@@ -59,43 +48,33 @@ st.markdown("""
     background: linear-gradient(to right,#f8fafc,#eef2ff);
 }
 
-h1,h2,h3,h4,h5,h6{
+h1,h2,h3,h4{
     color:#0f172a !important;
-    font-weight:700;
-}
-
-p,label,div{
-    color:#1e293b;
 }
 
 div[data-testid="metric-container"]{
     background:white;
-    border-radius:16px;
-    padding:18px;
+    border-radius:15px;
+    padding:15px;
     border:1px solid #dbeafe;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    box-shadow:0px 4px 10px rgba(0,0,0,0.05);
 }
 
 .stButton > button{
     background:linear-gradient(to right,#2563eb,#7c3aed);
     color:white;
     border:none;
-    border-radius:12px;
+    border-radius:10px;
     padding:10px 18px;
     font-weight:bold;
-}
-
-.stTextArea textarea{
-    background:white !important;
-    color:black !important;
 }
 
 .quiz-card{
     background:white;
     padding:18px;
-    border-radius:15px;
-    border:1px solid #dbeafe;
+    border-radius:12px;
     margin-bottom:15px;
+    border:1px solid #dbeafe;
 }
 
 .answer-box{
@@ -103,17 +82,14 @@ div[data-testid="metric-container"]{
     padding:12px;
     border-radius:10px;
     margin-top:10px;
-    color:#166534;
-    font-weight:bold;
 }
 
 .roadmap-card{
     background:white;
     padding:20px;
-    border-radius:18px;
-    margin-bottom:20px;
+    border-radius:15px;
+    margin-bottom:15px;
     border:1px solid #dbeafe;
-    box-shadow:0 4px 10px rgba(0,0,0,0.05);
 }
 
 </style>
@@ -216,66 +192,40 @@ career_skill_map = {
 # ==========================================
 project_recommendations = {
 
-    "excel": [
-        "Sales Dashboard in Excel",
-        "Employee Salary Analysis",
-        "Financial Report Automation",
-        "Inventory Tracker",
-        "Expense Management System"
-    ],
-
-    "statistics": [
-        "Customer Survey Analysis",
-        "Market Trend Analysis",
-        "A/B Testing Project",
-        "Business Data Analysis",
-        "Risk Analysis Dashboard"
-    ],
-
-    "pandas": [
-        "Netflix Data Analysis",
-        "IPL Data Analysis",
-        "COVID-19 Data Exploration",
-        "Student Dataset Analysis",
-        "Stock Market Analysis"
-    ],
-
-    "tableau": [
-        "Interactive Data Dashboard",
-        "Customer Segmentation Dashboard",
-        "Retail Analytics Dashboard",
-        "HR Analytics Dashboard",
-        "Business KPI Dashboard"
-    ],
-
     "python": [
         "Student Management System",
         "Expense Tracker",
-        "Chat Application",
-        "Automation Script",
         "Weather App"
     ],
 
     "sql": [
         "Library Database System",
-        "Hospital Management Database",
-        "Sales Analytics Database",
-        "Employee Database",
-        "Banking Database"
-    ]
-}
-
-# ==========================================
-# DEPENDENCIES
-# ==========================================
-dependencies = {
-
-    "machine learning": [
-        "python"
+        "Hospital Management System",
+        "Sales Analytics Database"
     ],
 
-    "deep learning": [
-        "machine learning"
+    "machine learning": [
+        "House Price Prediction",
+        "Spam Email Classifier",
+        "Recommendation System"
+    ],
+
+    "html": [
+        "Portfolio Website",
+        "Landing Page",
+        "Restaurant Website"
+    ],
+
+    "css": [
+        "Responsive Dashboard",
+        "Animated Website",
+        "Modern Portfolio"
+    ],
+
+    "javascript": [
+        "Quiz Application",
+        "Weather App",
+        "ToDo App"
     ]
 }
 
@@ -293,65 +243,32 @@ quiz_data = {
         },
 
         {
-            "question": "Which symbol is used for comments?",
-            "options": ["#", "//", "@", "**"],
-            "answer": "#"
-        },
-
-        {
             "question": "Which datatype is immutable?",
-            "options": ["list", "tuple", "set", "dict"],
+            "options": ["list", "tuple", "dict", "set"],
             "answer": "tuple"
         },
 
         {
-            "question": "Which loop is used for iteration?",
-            "options": ["iterate", "for", "repeat", "loop"],
-            "answer": "for"
-        },
-
-        {
-            "question": "Which library used for data analysis?",
-            "options": ["numpy", "pandas", "pygame", "tkinter"],
-            "answer": "pandas"
-        },
-
-        {
-            "question": "Which operator is used for power?",
-            "options": ["^", "**", "//", "%"],
-            "answer": "**"
-        },
-
-        {
-            "question": "Which datatype stores key-value pairs?",
-            "options": ["list", "tuple", "dict", "set"],
-            "answer": "dict"
-        },
-
-        {
-            "question": "Which keyword is used for conditional statements?",
-            "options": ["loop", "if", "switch", "case"],
-            "answer": "if"
-        },
-
-        {
             "question": "Which function prints output?",
-            "options": ["show()", "display()", "print()", "echo()"],
+            "options": ["show()", "print()", "echo()", "display()"],
             "answer": "print()"
-        },
-
-        {
-            "question": "Which keyword is used to import libraries?",
-            "options": ["include", "import", "using", "require"],
-            "answer": "import"
         }
     ]
 }
 
 # ==========================================
+# DEPENDENCIES
+# ==========================================
+dependencies = {
+
+    "machine learning": ["python"],
+    "deep learning": ["machine learning"]
+}
+
+# ==========================================
 # STOPWORDS
 # ==========================================
-stop_words = set(stopwords.words('english'))
+stop_words = set(stopwords.words("english"))
 
 # ==========================================
 # SESSION STATE
@@ -364,7 +281,8 @@ defaults = {
     "readiness": 0,
     "resume_score": 0,
     "user_skills": "",
-    "chat_history": []
+    "chat_history": [],
+    "selected_mcqs": []
 }
 
 for key, value in defaults.items():
@@ -380,8 +298,8 @@ def preprocess(text):
     text = text.lower()
 
     text = re.sub(
-        r'[^a-zA-Z\s]',
-        '',
+        r"[^a-zA-Z\s]",
+        "",
         text
     )
 
@@ -406,10 +324,10 @@ def extract_pdf(pdf):
 
     for page in reader.pages:
 
-        t = page.extract_text()
+        content = page.extract_text()
 
-        if t:
-            text += t
+        if content:
+            text += content
 
     return text
 
@@ -422,11 +340,11 @@ def ats_feedback(resume_text):
 
     text = resume_text.lower()
 
-    if "projects" not in text:
-        suggestions.append("Add Projects Section")
-
     if "skills" not in text:
         suggestions.append("Add Skills Section")
+
+    if "projects" not in text:
+        suggestions.append("Add Projects Section")
 
     if "experience" not in text:
         suggestions.append("Add Experience Section")
@@ -434,7 +352,7 @@ def ats_feedback(resume_text):
     return suggestions
 
 # ==========================================
-# SKILL EXTRACTION
+# EXTRACT SKILLS
 # ==========================================
 def extract_skills(text):
 
@@ -446,10 +364,7 @@ def extract_skills(text):
 
         for skill in skills:
 
-            if all(
-                word in text
-                for word in skill.split()
-            ):
+            if all(word in text for word in skill.split()):
                 found.add(skill)
 
     return list(found)
@@ -464,13 +379,11 @@ def analyze(skills, role):
     text = preprocess(skills)
 
     matched = [
-
         s for s in required
         if s in text
     ]
 
     missing = [
-
         s for s in required
         if s not in text
     ]
@@ -487,9 +400,7 @@ def analyze(skills, role):
 # ==========================================
 def similarity(user, role):
 
-    required = " ".join(
-        career_skill_map[role]
-    )
+    required = " ".join(career_skill_map[role])
 
     tfidf = TfidfVectorizer().fit_transform(
         [user, required]
@@ -523,10 +434,7 @@ def recommend_roles(user_skills):
         )[0][0]
 
         recommendations.append(
-            (
-                role,
-                round(score * 100, 2)
-            )
+            (role, round(score * 100, 2))
         )
 
     recommendations.sort(
@@ -537,7 +445,7 @@ def recommend_roles(user_skills):
     return recommendations[:3]
 
 # ==========================================
-# ROADMAP SORT
+# ROADMAP SORTING
 # ==========================================
 def sort_skills(skills):
 
@@ -584,7 +492,7 @@ def resources(skill):
     }
 
 # ==========================================
-# PDF REPORT
+# GENERATE PDF
 # ==========================================
 def generate_pdf(role, matched, missing, readiness):
 
@@ -592,13 +500,77 @@ def generate_pdf(role, matched, missing, readiness):
 
     pdf.add_page()
 
+    pdf.set_font("Arial", "B", 20)
+
+    pdf.cell(
+        200,
+        10,
+        txt="AI Career Planner Report",
+        ln=True,
+        align="C"
+    )
+
+    pdf.ln(10)
+
+    pdf.set_font("Arial", size=14)
+
+    pdf.cell(
+        200,
+        10,
+        txt=f"Target Role: {role.replace('_',' ').title()}",
+        ln=True
+    )
+
+    pdf.cell(
+        200,
+        10,
+        txt=f"Career Readiness: {readiness}%",
+        ln=True
+    )
+
+    pdf.ln(5)
+
+    pdf.set_font("Arial", "B", 14)
+
+    pdf.cell(
+        200,
+        10,
+        txt="Matched Skills:",
+        ln=True
+    )
+
     pdf.set_font("Arial", size=12)
 
-    pdf.cell(200, 10, txt="AI Career Report", ln=True)
+    for skill in matched:
 
-    pdf.cell(200, 10, txt=f"Target Role: {role}", ln=True)
+        pdf.cell(
+            200,
+            8,
+            txt=f"- {skill}",
+            ln=True
+        )
 
-    pdf.cell(200, 10, txt=f"Readiness: {readiness}%", ln=True)
+    pdf.ln(5)
+
+    pdf.set_font("Arial", "B", 14)
+
+    pdf.cell(
+        200,
+        10,
+        txt="Missing Skills:",
+        ln=True
+    )
+
+    pdf.set_font("Arial", size=12)
+
+    for skill in missing:
+
+        pdf.cell(
+            200,
+            8,
+            txt=f"- {skill}",
+            ln=True
+        )
 
     filename = "career_report.pdf"
 
@@ -645,6 +617,9 @@ skills_input = st.text_area(
     value=skills_text
 )
 
+# ==========================================
+# ANALYZE BUTTON
+# ==========================================
 if st.button("Analyze"):
 
     st.session_state.user_skills = skills_input
@@ -655,13 +630,9 @@ if st.button("Analyze"):
     )
 
     st.session_state.matched = matched
-
     st.session_state.missing = missing
-
     st.session_state.readiness = readiness
-
     st.session_state.resume_score = readiness
-
     st.session_state.analysis_done = True
 
 # ==========================================
@@ -691,19 +662,16 @@ if st.session_state.analysis_done:
         f"{st.session_state.resume_score}%"
     )
 
-    # ==========================================
+    # ======================================
     # RECOMMENDED ROLES
-    # ==========================================
+    # ======================================
     st.subheader("🎯 Recommended Roles")
 
     recommendations = recommend_roles(
         st.session_state.user_skills
     )
 
-    for idx, (r, score) in enumerate(
-        recommendations,
-        start=1
-    ):
+    for idx, (r, score) in enumerate(recommendations, start=1):
 
         st.markdown(
             f"### {idx}. {r.replace('_',' ').title()}"
@@ -713,25 +681,25 @@ if st.session_state.analysis_done:
 
         st.write(f"Match Score: {score}%")
 
-    # ==========================================
+    # ======================================
     # MATCHED SKILLS
-    # ==========================================
+    # ======================================
     with st.expander("✅ Matched Skills"):
 
         for skill in st.session_state.matched:
             st.success(skill)
 
-    # ==========================================
+    # ======================================
     # MISSING SKILLS
-    # ==========================================
+    # ======================================
     with st.expander("❌ Missing Skills"):
 
         for skill in st.session_state.missing:
             st.error(skill)
 
-    # ==========================================
+    # ======================================
     # ROADMAP
-    # ==========================================
+    # ======================================
     st.subheader("📚 Adaptive Learning Roadmap")
 
     ordered = sort_skills(
@@ -740,47 +708,53 @@ if st.session_state.analysis_done:
 
     for i, skill in enumerate(ordered):
 
-        st.markdown(
-            f"""
+        st.markdown(f"""
 <div class="roadmap-card">
 
-### Week {i*2+1}-{i*2+2}: {skill.title()}
+<h3>Week {i*2+1}-{i*2+2}: {skill.title()}</h3>
 
 </div>
-""",
-            unsafe_allow_html=True
-        )
+""", unsafe_allow_html=True)
 
         res = resources(skill)
 
         st.markdown(f"- [Course]({res['course']})")
-
         st.markdown(f"- [Documentation]({res['docs']})")
-
         st.markdown(f"- [Practice Projects]({res['practice']})")
-
-        st.write("### Recommended Projects")
 
         if skill in project_recommendations:
 
-            projects = project_recommendations[skill]
+            st.write("### Recommended Projects")
 
-            selected_projects = random.sample(
-                projects,
-                min(3, len(projects))
-            )
+            for project in project_recommendations[skill]:
 
-            for project in selected_projects:
                 st.write(f"• {project}")
 
-        else:
-            st.info("Projects will be added soon.")
+    # ======================================
+    # CHART
+    # ======================================
+    df = pd.DataFrame({
 
-        st.markdown("---")
+        "Type": ["Matched", "Missing"],
 
-    # ==========================================
+        "Count": [
+            len(st.session_state.matched),
+            len(st.session_state.missing)
+        ]
+    })
+
+    fig = px.bar(
+        df,
+        x="Type",
+        y="Count",
+        title="Skill Analysis"
+    )
+
+    st.plotly_chart(fig)
+
+    # ======================================
     # ATS FEEDBACK
-    # ==========================================
+    # ======================================
     st.subheader("📄 ATS Resume Analysis")
 
     if pdf_file:
@@ -796,29 +770,17 @@ if st.session_state.analysis_done:
             st.success("Your Resume Looks ATS Friendly")
 
 # ==========================================
-# INITIALIZE MCQ SESSION
-# ==========================================
-if "selected_mcqs" not in st.session_state:
-    st.session_state.selected_mcqs = []
-
-if "show_answers" not in st.session_state:
-    st.session_state.show_answers = False
-
-# ==========================================
 # MCQ SECTION
 # ==========================================
 st.subheader("🧠 Skill Testing MCQs")
 
 mcq_count = st.slider(
     "Select Number of MCQs",
+    1,
     5,
-    15,
-    5
+    3
 )
 
-# ------------------------------------------
-# GENERATE QUESTIONS BUTTON
-# ------------------------------------------
 if st.button("Generate MCQs"):
 
     questions_pool = []
@@ -826,23 +788,17 @@ if st.button("Generate MCQs"):
     for skill in st.session_state.matched:
 
         if skill in quiz_data:
-
             questions_pool.extend(
                 quiz_data[skill]
             )
 
     random.shuffle(questions_pool)
 
-    if mcq_count > len(questions_pool):
-        mcq_count = len(questions_pool)
-
     st.session_state.selected_mcqs = questions_pool[:mcq_count]
 
-    st.session_state.show_answers = False
-
-# ------------------------------------------
-# DISPLAY QUESTIONS
-# ------------------------------------------
+# ==========================================
+# DISPLAY MCQS
+# ==========================================
 if len(st.session_state.selected_mcqs) > 0:
 
     user_answers = []
@@ -857,10 +813,11 @@ if len(st.session_state.selected_mcqs) > 0:
         answer = st.radio(
             f"Q{idx+1}. {q['question']}",
             q["options"],
-            key=f"question_{idx}"
+            key=f"q_{idx}"
         )
 
         user_answers.append({
+
             "question": q["question"],
             "selected": answer,
             "correct": q["answer"]
@@ -871,12 +828,7 @@ if len(st.session_state.selected_mcqs) > 0:
             unsafe_allow_html=True
         )
 
-    # --------------------------------------
-    # SUBMIT TEST
-    # --------------------------------------
     if st.button("Submit MCQ Test"):
-
-        st.session_state.show_answers = True
 
         score = 0
 
@@ -890,12 +842,7 @@ if len(st.session_state.selected_mcqs) > 0:
             2
         )
 
-        st.success(
-            f"🎯 MCQ Score: {percent}%"
-        )
-
-        if percent >= 80:
-            st.balloons()
+        st.success(f"🎯 MCQ Score: {percent}%")
 
         st.subheader("✅ Correct Answers")
 
@@ -913,62 +860,21 @@ if len(st.session_state.selected_mcqs) > 0:
 </div>
 """, unsafe_allow_html=True)
 
-else:
-
-    st.info("Click 'Generate MCQs' to start test.")
-    
-    # ==========================================
-    # CHART
-    # ==========================================
-    df = pd.DataFrame({
-
-        "Type": [
-            "Matched",
-            "Missing"
-        ],
-
-        "Count": [
-            len(st.session_state.matched),
-            len(st.session_state.missing)
-        ]
-    })
-
-    fig = px.bar(
-        df,
-        x="Type",
-        y="Count",
-        title="Skill Analysis"
-    )
-
-    st.plotly_chart(fig)
-
 # ==========================================
-# CHATBOT SECTION
+# CHATBOT
 # ==========================================
 st.subheader("🤖 AI Career Mentor")
 
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
-
-# ------------------------------------------
-# DISPLAY CHAT HISTORY
-# ------------------------------------------
 for chat in st.session_state.chat_history:
 
     with st.chat_message(chat["role"]):
 
         st.markdown(chat["message"])
 
-# ------------------------------------------
-# USER INPUT
-# ------------------------------------------
 user_prompt = st.chat_input(
     "Ask your career question..."
 )
 
-# ------------------------------------------
-# CHATBOT RESPONSE
-# ------------------------------------------
 if user_prompt:
 
     st.session_state.chat_history.append({
@@ -983,11 +889,11 @@ if user_prompt:
 You asked:
 **{user_prompt}**
 
-### 📌 Recommended Advice
+### 📌 Suggestions
 
 - Build strong projects
-- Improve missing skills
-- Practice interview questions
+- Practice coding regularly
+- Improve communication skills
 - Stay consistent with roadmap
 
 ### 🎯 Target Role
@@ -1001,222 +907,13 @@ You asked:
     })
 
     st.rerun()
-    
-# ==========================================
-# PDF REPORT
-# ==========================================
-def generate_pdf(role, matched, missing, readiness):
-
-    pdf = FPDF()
-
-    pdf.add_page()
-
-    # --------------------------------------
-    # TITLE
-    # --------------------------------------
-    pdf.set_fill_color(37, 99, 235)
-
-    pdf.set_text_color(255, 255, 255)
-
-    pdf.set_font("Arial", "B", 22)
-
-    pdf.cell(
-        190,
-        15,
-        txt="AI Career Planner Report",
-        ln=True,
-        align="C",
-        fill=True
-    )
-
-    pdf.ln(10)
-
-    # --------------------------------------
-    # RESET COLORS
-    # --------------------------------------
-    pdf.set_text_color(0, 0, 0)
-
-    # --------------------------------------
-    # ROLE SECTION
-    # --------------------------------------
-    pdf.set_font("Arial", "B", 16)
-
-    pdf.cell(
-        200,
-        10,
-        txt=f"Target Role: {role.replace('_', ' ').title()}",
-        ln=True
-    )
-
-    pdf.ln(4)
-
-    # --------------------------------------
-    # READINESS SCORE
-    # --------------------------------------
-    pdf.set_font("Arial", "B", 14)
-
-    pdf.cell(
-        200,
-        10,
-        txt=f"Career Readiness Score: {readiness}%",
-        ln=True
-    )
-
-    pdf.ln(6)
-
-    # --------------------------------------
-    # MATCHED SKILLS
-    # --------------------------------------
-    pdf.set_fill_color(220, 252, 231)
-
-    pdf.set_font("Arial", "B", 15)
-
-    pdf.cell(
-        190,
-        10,
-        txt="Matched Skills",
-        ln=True,
-        fill=True
-    )
-
-    pdf.set_font("Arial", "", 13)
-
-    pdf.ln(3)
-
-    if len(matched) > 0:
-
-        for skill in matched:
-
-            pdf.cell(
-                200,
-                8,
-                txt=f"- {skill.title()}",
-                ln=True
-            )
-
-    else:
-
-        pdf.cell(
-            200,
-            8,
-            txt="No matched skills found.",
-            ln=True
-        )
-
-    pdf.ln(6)
-
-    # --------------------------------------
-    # MISSING SKILLS
-    # --------------------------------------
-    pdf.set_fill_color(254, 226, 226)
-
-    pdf.set_font("Arial", "B", 15)
-
-    pdf.cell(
-        190,
-        10,
-        txt="Missing Skills",
-        ln=True,
-        fill=True
-    )
-
-    pdf.set_font("Arial", "", 13)
-
-    pdf.ln(3)
-
-    if len(missing) > 0:
-
-        for skill in missing:
-
-            pdf.cell(
-                200,
-                8,
-                txt=f"- {skill.title()}",
-                ln=True
-            )
-
-    else:
-
-        pdf.cell(
-            200,
-            8,
-            txt="No missing skills.",
-            ln=True
-        )
-
-    pdf.ln(8)
-
-   # --------------------------------------
-# CAREER SUGGESTION
-# --------------------------------------
-pdf.set_fill_color(219, 234, 254)
-
-pdf.set_font("Arial", "B", 15)
-
-pdf.cell(
-    190,
-    10,
-    txt="Career Suggestions",
-    ln=True,
-    fill=True
-)
-
-pdf.set_font("Arial", "", 12)
-
-suggestions = [
-
-    "Build strong real-world projects.",
-    "Improve communication skills.",
-    "Practice interview preparation regularly.",
-    "Complete roadmap topics consistently.",
-    "Create ATS-friendly resume."
-]
-
-pdf.ln(3)
-
-for tip in suggestions:
-
-    pdf.multi_cell(
-        180,
-        8,
-        txt="- " + tip
-    )
-
-    pdf.ln(1)
-    # --------------------------------------
-    # FOOTER
-    # --------------------------------------
-    pdf.set_font("Arial", "I", 10)
-
-    pdf.set_text_color(100, 100, 100)
-
-    pdf.cell(
-        200,
-        10,
-        txt="Generated by AI Career Planner",
-        ln=True,
-        align="C"
-    )
-
-    # --------------------------------------
-    # SAVE FILE
-    # --------------------------------------
-    filename = "career_report.pdf"
-
-    pdf.output(filename)
-
-    return filename
 
 # ==========================================
-# PDF DOWNLOAD SECTION
+# PDF DOWNLOAD
 # ==========================================
 st.markdown("---")
 
 st.subheader("📥 Download Career Report")
-
-st.write(
-    "Generate a professional AI Career Report with matched skills, missing skills, readiness score, and career suggestions."
-)
 
 if st.button("Generate PDF Report"):
 
