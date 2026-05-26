@@ -891,15 +891,19 @@ if len(st.session_state.selected_mcqs) > 0:
 else:
 
     st.info("Click 'Generate MCQs' to start test.")
-    
-    # ==========================================
-    # CHART
-    # ==========================================
+
+# ==========================================
+# CHART SECTION
+# ==========================================
+if st.session_state.analysis_done:
+
+    st.subheader("📊 Skill Analysis Chart")
+
     df = pd.DataFrame({
 
         "Type": [
-            "Matched",
-            "Missing"
+            "Matched Skills",
+            "Missing Skills"
         ],
 
         "Count": [
@@ -912,10 +916,22 @@ else:
         df,
         x="Type",
         y="Count",
-        title="Skill Analysis"
+        text="Count",
+        title="Skill Gap Analysis"
     )
 
-    st.plotly_chart(fig)
+    fig.update_traces(
+        textposition="outside"
+    )
+
+    fig.update_layout(
+        height=500
+    )
+
+    st.plotly_chart(
+        fig,
+        use_container_width=True
+    )
 
 # ==========================================
 # CHATBOT SECTION
