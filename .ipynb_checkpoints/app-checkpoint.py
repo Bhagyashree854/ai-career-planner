@@ -20,8 +20,17 @@ from sklearn.metrics.pairwise import cosine_similarity
 # ==========================================
 # NLTK DOWNLOADS
 # ==========================================
-nltk.download('punkt')
-nltk.download('stopwords')
+import nltk
+
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
+
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
 
 # ==========================================
 # PAGE CONFIG
