@@ -1146,44 +1146,43 @@ def generate_pdf(role, matched, missing, readiness):
 
     pdf.ln(8)
 
-    # --------------------------------------
-    # CAREER SUGGESTION
-    # --------------------------------------
-    pdf.set_fill_color(219, 234, 254)
+   # --------------------------------------
+# CAREER SUGGESTION
+# --------------------------------------
+pdf.set_fill_color(219, 234, 254)
 
-    pdf.set_font("Arial", "B", 15)
+pdf.set_font("Arial", "B", 15)
 
-    pdf.cell(
-        190,
-        10,
-        txt="Career Suggestions",
-        ln=True,
-        fill=True
+pdf.cell(
+    190,
+    10,
+    txt="Career Suggestions",
+    ln=True,
+    fill=True
+)
+
+pdf.set_font("Arial", "", 12)
+
+suggestions = [
+
+    "Build strong real-world projects.",
+    "Improve communication skills.",
+    "Practice interview preparation regularly.",
+    "Complete roadmap topics consistently.",
+    "Create ATS-friendly resume."
+]
+
+pdf.ln(3)
+
+for tip in suggestions:
+
+    pdf.multi_cell(
+        180,
+        8,
+        txt="- " + tip
     )
 
-    pdf.set_font("Arial", "", 12)
-
-    suggestions = [
-
-        "Build strong real-world projects.",
-        "Improve communication skills.",
-        "Practice interview preparation regularly.",
-        "Complete roadmap topics consistently.",
-        "Create ATS-friendly resume."
-    ]
-
-    pdf.ln(3)
-
-    for tip in suggestions:
-
-        pdf.multi_cell(
-            0,
-            8,
-            txt=f"- {tip}"
-        )
-
-    pdf.ln(8)
-
+    pdf.ln(1)
     # --------------------------------------
     # FOOTER
     # --------------------------------------
