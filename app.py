@@ -355,29 +355,21 @@ for key, value in defaults.items():
     if key not in st.session_state:
         st.session_state[key] = value
 
-# ==========================================
-# PREPROCESS
-# ==========================================
 def preprocess(text):
 
+    if not text:
+        return ""
+
     text = text.lower()
+    text = re.sub(r"[^a-zA-Z\s]", "", text)
 
-    text = re.sub(
-        r'[^a-zA-Z\s]',
-        '',
-        text
-    )
+    # SAFE TOKENIZATION (NO punkt dependency)
+    tokens = text.split()
 
-    tokens = word_tokenize(text)
-
-    clean = [
-
-        w for w in tokens
-        if w not in stop_words
-    ]
+    clean = [w for w in tokens if w not in stop_words]
 
     return " ".join(clean)
-
+    
 # ==========================================
 # PDF EXTRACTION
 # ==========================================
