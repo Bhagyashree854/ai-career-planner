@@ -22,15 +22,23 @@ from sklearn.metrics.pairwise import cosine_similarity
 # ==========================================
 import nltk
 
+# Download punkt
 try:
-    nltk.data.find('tokenizers/punkt')
+    nltk.data.find("tokenizers/punkt")
 except LookupError:
-    nltk.download('punkt')
+    nltk.download("punkt")
 
+# Download punkt_tab
 try:
-    nltk.data.find('corpora/stopwords')
+    nltk.data.find("tokenizers/punkt_tab")
 except LookupError:
-    nltk.download('stopwords')
+    nltk.download("punkt_tab")
+
+# Download stopwords
+try:
+    nltk.data.find("corpora/stopwords")
+except LookupError:
+    nltk.download("stopwords")
     
 # ==========================================
 # PAGE CONFIG
