@@ -1151,11 +1151,16 @@ def generate_pdf(role, matched, missing, readiness):
 
     for tip in suggestions:
 
-        pdf.multi_cell(
-            0,
-            8,
-            txt=f"- {tip}"
-        )
+    safe_tip = str(tip).encode(
+        "latin-1",
+        "ignore"
+    ).decode("latin-1")
+
+    pdf.multi_cell(
+        180,
+        8,
+        txt=f"* {safe_tip}"
+    )
 
     pdf.ln(8)
 
