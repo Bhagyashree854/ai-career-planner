@@ -952,18 +952,128 @@ if user_prompt:
         "message": user_prompt
     })
 
-    response = f"""
+    prompt = user_prompt.lower()
+
+    # ======================================
+    # AI RESPONSES
+    # ======================================
+
+    if "python" in prompt:
+
+        response = """
+### 🐍 What is Python?
+
+Python is a high-level programming language used for:
+
+- Web Development
+- Data Science
+- Machine Learning
+- Automation
+- AI Applications
+
+### ✅ Why Python is Popular
+
+- Easy syntax
+- Beginner friendly
+- Huge libraries
+- Fast development
+
+### 🚀 Popular Python Libraries
+
+- Pandas
+- NumPy
+- Streamlit
+- TensorFlow
+- Scikit-learn
+"""
+
+    elif "data analyst" in prompt:
+
+        response = """
+### 📊 Who is a Data Analyst?
+
+A Data Analyst collects, cleans, and analyzes data to help companies make decisions.
+
+### 🔥 Skills Required
+
+- Python
+- SQL
+- Excel
+- Power BI
+- Tableau
+- Statistics
+
+### 💼 Responsibilities
+
+- Create dashboards
+- Analyze business data
+- Generate reports
+- Find trends and insights
+"""
+
+    elif "machine learning" in prompt:
+
+        response = """
+### 🤖 What is Machine Learning?
+
+Machine Learning is a branch of AI where computers learn patterns from data.
+
+### 🚀 Applications
+
+- Recommendation Systems
+- Chatbots
+- Face Recognition
+- Fraud Detection
+- Self-driving Cars
+
+### 🔥 Skills Needed
+
+- Python
+- Statistics
+- Pandas
+- Scikit-learn
+- Deep Learning
+"""
+
+    elif "resume" in prompt:
+
+        response = """
+### 📄 Resume Tips
+
+- Add Projects
+- Add Skills Section
+- Use ATS-friendly format
+- Keep resume clean and simple
+- Quantify achievements
+"""
+
+    elif "interview" in prompt:
+
+        response = """
+### 🎯 Interview Preparation Tips
+
+- Practice coding daily
+- Revise core concepts
+- Prepare HR questions
+- Build confidence
+- Explain your projects clearly
+"""
+
+    else:
+
+        response = f"""
 ### 🚀 AI Career Guidance
 
 You asked:
 **{user_prompt}**
 
-### 📌 Recommended Advice
+### 📌 General Suggestions
 
 - Build strong projects
-- Improve missing skills
-- Practice interview questions
-- Stay consistent with roadmap
+- Improve communication skills
+- Practice coding regularly
+- Stay consistent with learning
+- Focus on real-world skills
 
 ### 🎯 Target Role
 {role.replace('_',' ').title()}
